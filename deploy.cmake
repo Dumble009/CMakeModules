@@ -4,6 +4,8 @@ file(GLOB HEADER_FILES "*.h")
 
 foreach(HEADER_FILE ${HEADER_FILES})
 
+message(STATUS ${HEADER_FILE})
+
 # フォルダ名、拡張子を除いたファイル名を変数TEMP_TARGETに代入
 get_filename_component(TEMP_TARGET ${HEADER_FILE} NAME_WE)
 # TEMP_TARGETの頭にcopy_header_を追加
@@ -22,4 +24,15 @@ add_dependencies(${LIB_NAME} ${TEMP_TARGET})
 
 endforeach(HEADER_FILE ${HEADER_FILES})
 
+endfunction()
+
+function(deploy_lib DIR_NAME LIB_NAME PROJ_NAME)
+
+set(LIB_FILE_NAME $<TARGET_FILE_NAME:${LIB_NAME}>)
+
+add_custom_command(
+    TARGET ${PROJ_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${LIB_NAME}> "C:/MyLib/${DIR_NAME}/lib/${LIB_FILE_NAME}"
+)
 endfunction()
