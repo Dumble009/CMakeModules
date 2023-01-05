@@ -1,5 +1,7 @@
 function(deploy_headers DIR_NAME LIB_NAME)
 
+cmake_parse_arguments(SUBDIRECTORY "" "PATH" "" ${ARGN})
+
 file(GLOB HEADER_FILES "*.h")
 
 foreach(HEADER_FILE ${HEADER_FILES})
@@ -17,7 +19,7 @@ get_filename_component(FNAME ${HEADER_FILE} NAME)
 add_custom_target(
     ${TEMP_TARGET}
     COMMAND 
-    ${CMAKE_COMMAND} -E copy "${HEADER_FILE}" "C:/MyLib/${DIR_NAME}/include/${FNAME}"
+    ${CMAKE_COMMAND} -E copy "${HEADER_FILE}" "C:/MyLib/${DIR_NAME}/include/${SUBDIRECTORY_PATH}/${FNAME}"
 )
 
 add_dependencies(${LIB_NAME} ${TEMP_TARGET})
